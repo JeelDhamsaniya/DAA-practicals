@@ -76,6 +76,84 @@ vector<int> insertionSort1(vector<int> &arr)
     return a;
 }
 
+// Recursive Selection Sort
+void selectionSortRecursive(vector<int> &arr, int start, int n)
+{
+    if (start >= n - 1)
+        return;
+
+    int minIndex = start;
+    for (int i = start + 1; i < n; i++)
+    {
+        if (arr[i] < arr[minIndex])
+        {
+            minIndex = i;
+        }
+    }
+
+    swap(arr[start], arr[minIndex]);
+    selectionSortRecursive(arr, start + 1, n);
+}
+
+vector<int> selectionSort2(vector<int> &arr)
+{
+    vector<int> a = arr;
+    selectionSortRecursive(a, 0, a.size());
+    return a;
+}
+
+void bubbleSortRecursive(vector<int> &arr, int n)
+{
+    if (n == 1)
+        return;
+
+    bool swapped = false;
+    for (int i = 0; i < n - 1; i++)
+    {
+        if (arr[i] > arr[i + 1])
+        {
+            swap(arr[i], arr[i + 1]);
+            swapped = true;
+        }
+    }
+
+    if (!swapped)
+        return;
+    bubbleSortRecursive(arr, n - 1);
+}
+
+vector<int> bubbleSort2(vector<int> &arr)
+{
+    vector<int> a = arr;
+    bubbleSortRecursive(a, a.size());
+    return a;
+}
+
+void insertionSortRecursive(vector<int> &arr, int n)
+{
+    if (n <= 1)
+        return;
+
+    insertionSortRecursive(arr, n - 1);
+
+    int key = arr[n - 1];
+    int j = n - 2;
+
+    while (j >= 0 && arr[j] > key)
+    {
+        arr[j + 1] = arr[j];
+        j--;
+    }
+    arr[j + 1] = key;
+}
+
+vector<int> insertionSort2(vector<int> &arr)
+{
+    vector<int> a = arr;
+    insertionSortRecursive(a, a.size());
+    return a;
+}
+
 int main()
 {
 
@@ -97,7 +175,7 @@ int main()
     // for (int i : sortedArr1)
     //     cout << i << " ";
     // cout << endl;
-    cout << "Selection Sort time taken: " << duration1.count() << " microseconds" << endl
+    cout << "Selection Sort 1 time taken: " << duration1.count() << " microseconds" << endl
          << endl;
 
     // Bubble sort iterative
@@ -115,7 +193,7 @@ int main()
     // for (int i : sortedArr2)
     //     cout << i << " ";
     // cout << endl;
-    cout << "Bubble Sort time taken: " << duration2.count() << " microseconds" << endl
+    cout << "Bubble Sort 1 time taken: " << duration2.count() << " microseconds" << endl
          << endl;
 
     // insertion sort iterative
@@ -133,7 +211,55 @@ int main()
     // for (int i : sortedArr3)
     //     cout << i << " ";
     // cout << endl;
-    cout << "Insertion Sort time taken: " << duration3.count() << " microseconds" << endl;
+    cout << "Insertion Sort 1 time taken: " << duration3.count() << " microseconds" << endl << endl;
+    
+    // Selection Sort recursive
+    // cout << "Before sorting: ";
+    // for (int i : arr)
+    //     cout << i << " ";
+    // cout << endl;
+    auto start4 = high_resolution_clock::now();
+    vector<int> sortedArr4 = selectionSort2(arr);
+    auto end4 = high_resolution_clock::now();
+    auto duration4 = duration_cast<duration<double, micro>>(end4 - start4);
+    // cout << "After sorting: ";
+    // for (int i : sortedArr4)
+    //     cout << i << " ";
+    // cout << endl;
+    cout << "Selection Sort 2 time taken : " << duration4.count() << " microseconds" << endl << endl;
+
+    // Bubble Sort recursive
+    // cout << "Before sorting: ";
+    // for (int i : arr)
+    //     cout << i << " ";
+    // cout << endl;
+    auto start5 = high_resolution_clock::now();
+    vector<int> sortedArr5 = bubbleSort2(arr);
+    auto end5 = high_resolution_clock::now();
+    auto duration5 = duration_cast<duration<double, micro>>(end5 - start5);
+    // cout << "After sorting: ";
+    // for (int i : sortedArr5)
+    //     cout << i << " ";
+    // cout << endl;
+    cout << "Bubble Sort 2 time taken : " << duration5.count() << " microseconds" << endl << endl; 
+    
+    // Insertion Sort recursive
+    // cout << "Before sorting: ";
+    // for (int i : arr)
+    //     cout << i << " ";
+    // cout << endl;
+    auto start6 = high_resolution_clock::now();
+    vector<int> sortedArr6 = insertionSort2(arr);
+    auto end6 = high_resolution_clock::now();
+    auto duration6 = duration_cast<duration<double, micro>>(end6 - start6);
+    // cout << "After sorting: ";
+    // for (int i : sortedArr5)
+    //     cout << i << " ";
+    // cout << endl;
+    cout << "Insertion Sort 2 time taken : " << duration6.count() << " microseconds" << endl << endl; 
+
+
+
 
     return 0;
 }
